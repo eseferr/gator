@@ -1,10 +1,13 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
 
 	"github.com/eseferr/blog-aggregator/internal/config"
+	"github.com/eseferr/blog-aggregator/internal/database"
+	_ "github.com/lib/pq"
 )
 
 func main(){
@@ -13,13 +16,25 @@ if err != nil {
 	fmt.Fprintf(os.Stderr, "error reading config: %v\n", err)
 	os.Exit(1)
 }
+
+fmt.Printf("Using connection string: %s\n", cfg.DBURL)
+db, err := sql.Open("postgres",cfg.DBURL)
+if err != nil {
+	fmt.Println(err)
+	os.Exit(1)
+}
+defer db.Close()
+dbQueries := database.New(db)
 currentState := State{
-	&cfg,
+	cfg: &cfg,
+	db: dbQueries,
 }
 commands := Commands{
 	 commandHandlers: make(map[string]func(*State, Command) error),
 }
 commands.commandHandlers["login"] = handlerLogin
+commands.commandHandlers["register"] = handlerRegister
+commands.commandHandlers["reset"] = handlerReset
 userCommand := os.Args
 if len(userCommand) < 2{
 	fmt.Println("Invalid Command")
@@ -37,5 +52,4 @@ fmt.Println(len(userCommand))
 	fmt.Println(err)
 	os.Exit(1)
  }
-
 }
