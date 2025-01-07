@@ -36,6 +36,7 @@ commands.commandHandlers["login"] = handlerLogin
 commands.commandHandlers["register"] = handlerRegister
 commands.commandHandlers["reset"] = handlerReset
 commands.commandHandlers["users"] = handlerGetUsers
+commands.commandHandlers["agg"] = handlerAggregator
 userCommand := os.Args
 if len(userCommand) < 2{
 	fmt.Println("Invalid Command")
