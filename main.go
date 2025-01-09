@@ -17,7 +17,6 @@ if err != nil {
 	os.Exit(1)
 }
 
-fmt.Printf("Using connection string: %s\n", cfg.DBURL)
 db, err := sql.Open("postgres",cfg.DBURL)
 if err != nil {
 	fmt.Println(err)
@@ -44,7 +43,6 @@ if len(userCommand) < 2{
 	fmt.Println("Invalid Command")
 	os.Exit(1)
 }
-fmt.Println(len(userCommand))
 
  cmd := Command{
 	Name:userCommand[1],
