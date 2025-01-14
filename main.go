@@ -31,15 +31,17 @@ currentState := State{
 commands := Commands{
 	 commandHandlers: make(map[string]func(*State, Command) error),
 }
-commands.commandHandlers["login"] = handlerLogin
-commands.commandHandlers["register"] = handlerRegister
-commands.commandHandlers["reset"] = handlerReset
-commands.commandHandlers["users"] = handlerGetUsers
-commands.commandHandlers["agg"] = handlerAggregator
-commands.commandHandlers["addfeed"] = handlerAddFeed
-commands.commandHandlers["feeds"] = handlerFeeds
-commands.commandHandlers["follow"] = hanlerFeedFollow
-commands.commandHandlers["following"] = handlerListFeedFollows
+commands.register("login",handlerLogin)
+commands.register("register",handlerRegister)
+commands.register("reset", handlerReset)
+commands.register("users",handlerGetUsers)
+commands.register("agg", handlerAggregator)
+commands.register("addfeed", middlewareLoggedIn(handlerAddFeed))
+commands.register("feeds",handlerFeeds)
+commands.register("follow",middlewareLoggedIn(hanlerFeedFollow))
+commands.register("following", middlewareLoggedIn(handlerListFeedFollows))
+commands.register("unfollow",middlewareLoggedIn(handlerFeedUnfollow))
+
 
 userCommand := os.Args
 if len(userCommand) < 2{

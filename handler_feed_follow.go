@@ -9,12 +9,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func hanlerFeedFollow(s *State, cmd Command) error {
-	
-		user, err := s.db.GetUser(context.Background(),s.cfg.CurrentUserName)
-		if err != nil {
-			return err 
-		}
+func hanlerFeedFollow(s *State, cmd Command, user database.User) error {	
 		if len(cmd.Args) != 1 {
 			return fmt.Errorf("usage: %s <feed_url>", cmd.Name)
 		}
@@ -35,11 +30,8 @@ func hanlerFeedFollow(s *State, cmd Command) error {
 		return nil
 		}
 
-		func handlerListFeedFollows(s *State, cmd Command) error {
-			user, err := s.db.GetUser((context.Background()),s.cfg.CurrentUserName)
-			if err != nil {
-				return err
-			}
+		func handlerListFeedFollows(s *State, cmd Command, user database.User) error {
+		
 			feedFollows, err := s.db.GetFeedFollowsForUser(context.Background(), user.ID)
 			if err !=nil{
 				return fmt.Errorf("couldn't get feed follows: %w", err)
