@@ -38,6 +38,9 @@ commands.commandHandlers["users"] = handlerGetUsers
 commands.commandHandlers["agg"] = handlerAggregator
 commands.commandHandlers["addfeed"] = handlerAddFeed
 commands.commandHandlers["feeds"] = handlerFeeds
+commands.commandHandlers["follow"] = hanlerFeedFollow
+commands.commandHandlers["following"] = handlerListFeedFollows
+
 userCommand := os.Args
 if len(userCommand) < 2{
 	fmt.Println("Invalid Command")

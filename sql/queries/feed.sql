@@ -4,5 +4,6 @@ VALUES ($1, $2, $3, $4, $5, $6)
 RETURNING *;
 -- name: GetFeed :many
 SELECT * FROM feeds;
--- name: DeleteUser :exec
-DELETE FROM users;
+-- name: GetFeedByURL :one
+SELECT * FROM feeds
+WHERE url = $1;

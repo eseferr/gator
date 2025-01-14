@@ -48,15 +48,6 @@ func (q *Queries) CreateFeed(ctx context.Context, arg CreateFeedParams) (Feed, e
 	return i, err
 }
 
-const deleteUser = `-- name: DeleteUser :exec
-DELETE FROM users
-`
-
-func (q *Queries) DeleteUser(ctx context.Context) error {
-	_, err := q.db.ExecContext(ctx, deleteUser)
-	return err
-}
-
 const getFeed = `-- name: GetFeed :many
 SELECT id, created_at, updated_at, name, url, user_id FROM feeds
 `
@@ -89,4 +80,23 @@ func (q *Queries) GetFeed(ctx context.Context) ([]Feed, error) {
 		return nil, err
 	}
 	return items, nil
+}
+
+const getFeedByURL = `-- name: GetFeedByURL :one
+SELECT id, created_at, updated_at, name, url, user_id FROM feeds
+WHERE url = $1
+`
+
+func (q *Queries) GetFeedByURL(ctx context.Context, url string) (Feed, error) {
+	row := q.db.QueryRowContext(ctx, getFeedByURL, url)
+	var i Feed
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Name,
+		&i.Url,
+		&i.UserID,
+	)
+	return i, err
 }
