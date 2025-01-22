@@ -41,6 +41,7 @@ commands.register("feeds",handlerFeeds)
 commands.register("follow",middlewareLoggedIn(hanlerFeedFollow))
 commands.register("following", middlewareLoggedIn(handlerListFeedFollows))
 commands.register("unfollow",middlewareLoggedIn(handlerFeedUnfollow))
+commands.register("browse", middlewareLoggedIn(handlerBrowse))
 
 
 userCommand := os.Args
