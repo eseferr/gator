@@ -1,4 +1,4 @@
-This is a guided gator project from Boot.dev
+This is a guided Gator project from Boot.dev
 
 This is an RSS feed aggregator called "Gator" in go it's a CLI tool that allows users to:
 
